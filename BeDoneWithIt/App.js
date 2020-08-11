@@ -1,39 +1,26 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
-import { StyleSheet, View, TextInput } from "react-native";
+import React from "react";
+import { StyleSheet } from "react-native";
+import { enableScreens } from "react-native-screens";
+import { createNativeStackNavigator } from "react-native-screens/native-stack";
+import { End, Game, Home } from "./screens";
+import { NavigationContainer } from "@react-navigation/native";
+import { Provider } from "react-redux";
+import store from "./store";
 
-export default function App() {
-  const [board, setBoard] = useState([]);
+enableScreens();
+const Stack = createNativeStackNavigator();
 
-  useEffect(() => {
-    fetch("https://sugoku.herokuapp.com/board")
-      .then((data) => data.json())
-      .then(({ board }) => {
-        setBoard(board);
-      })
-      .catch(console.log);
-  }, []);
-
+export default function App({ navigation }) {
   return (
-    <View style={styles.container}>
-      {board.map((arr, index1) => (
-        <View key={index1} style={{ flexDirection: "row" }}>
-          {arr.map((val, index) => (
-            <View style={{ borderWidth: 0.5, width: 40, height: 40 }}>
-              <TextInput
-                keyboardType={"numeric"}
-                style={{ textAlign: "center" }}
-                key={index}
-                maxLength={1}
-              >
-                {val}
-              </TextInput>
-            </View>
-          ))}
-        </View>
-      ))}
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Game" component={Game} />
+          <Stack.Screen name="End" component={End} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

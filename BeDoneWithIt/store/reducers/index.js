@@ -1,5 +1,7 @@
 const initialState = {
   board: [],
+  board2: [],
+  status: "",
 };
 
 function boardReduce(state = initialState, action) {
@@ -8,6 +10,18 @@ function boardReduce(state = initialState, action) {
       return {
         ...state,
         board: action.payload,
+      };
+
+    case "SET_BOARD2":
+      return {
+        ...state,
+        board2: action.payload,
+      };
+
+    case "SET_STATUS":
+      return {
+        ...state,
+        status: action.payload,
       };
 
     default:
