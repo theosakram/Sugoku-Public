@@ -21,6 +21,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "React-Native App Project: Sudoku",
+    "githubUrl": "https://github.com/theosakram/Sugoku"
   }
 }

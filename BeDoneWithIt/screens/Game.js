@@ -5,6 +5,7 @@ import {
   TextInput,
   Button,
   KeyboardAvoidingView,
+  Text,
 } from "react-native";
 import {
   setBoardAsync,
@@ -23,10 +24,12 @@ export default function App({ route, navigation }) {
   const toBeMapped = board2.length ? board2 : board;
   const countdownTime =
     difficulty === "easy" ? 180 : difficulty === "medium" ? 120 : 60;
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     dispatch(setBoardAsync(difficulty));
     dispatch(setStatus(""));
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -56,95 +59,107 @@ export default function App({ route, navigation }) {
   let isRunning = status === "solved" ? false : true;
   const [recordedTime, setRecordedTime] = useState(0);
 
-  return (
-    <View style={styles.container}>
-      <KeyboardAvoidingView>
-        <CountDown
-          running={isRunning}
-          until={countdownTime}
-          size={30}
-          onFinish={() => {
-            if (status === "unsolved" || status === "broken") {
-              alert("You lose");
-              navigation.navigate("Home");
-            }
-          }}
-          onChange={(test) => {
-            setRecordedTime(countdownTime - test);
-          }}
-          digitStyle={{ backgroundColor: "#fff" }}
-          digitTxtStyle={{ color: "#009B72" }}
-          timeToShow={["M", "S"]}
-          timeLabels={{ m: "", s: "" }}
-          separatorStyle={{ color: "#009B72" }}
-          showSeparator
-        />
-        {toBeMapped.map((arr, index) => (
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading.............</Text>
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.container}>
+        <KeyboardAvoidingView>
+          <CountDown
+            running={isRunning}
+            until={countdownTime}
+            size={30}
+            onFinish={() => {
+              if (status === "unsolved" || status === "broken") {
+                alert("You lose");
+                navigation.navigate("Home");
+              }
+            }}
+            onChange={(test) => {
+              setRecordedTime(countdownTime - test);
+            }}
+            digitStyle={{ backgroundColor: "#fff" }}
+            digitTxtStyle={{ color: "#009B72" }}
+            timeToShow={["M", "S"]}
+            timeLabels={{ m: "", s: "" }}
+            separatorStyle={{ color: "#009B72" }}
+            showSeparator
+          />
+          {toBeMapped.map((arr, index) => (
+            <View
+              key={index}
+              style={{
+                flexDirection: "row",
+                marginBottom: (index + 1) % 3 === 0 ? 10 : 2.5,
+              }}
+            >
+              {arr.map((val, index1) => (
+                <View
+                  key={index1}
+                  style={{
+                    borderWidth: 0.5,
+                    borderRadius: 5,
+                    width: 30,
+                    height: 30,
+                    marginRight: (index1 + 1) % 3 === 0 ? 10 : 3,
+                  }}
+                >
+                  <TextInput
+                    onChangeText={(text) =>
+                      numChange(isNaN(+text) ? "" : text, { index, index1 })
+                    }
+                    keyboardType={"numeric"}
+                    editable={board[index][index1] == 0 ? true : false}
+                    style={{
+                      textAlign: "center",
+                      color: board[index][index1] == 0 ? "red" : "black",
+                      elevation: board[index][index1] == 0 ? 0 : 20,
+                    }}
+                    maxLength={1}
+                    value={val == 0 ? "" : val.toString()}
+                  />
+                </View>
+              ))}
+            </View>
+          ))}
+        </KeyboardAvoidingView>
+        <View style={{ flexDirection: "row", marginTop: 25 }}>
           <View
-            key={index}
             style={{
-              flexDirection: "row",
-              marginBottom: (index + 1) % 3 === 0 ? 10 : 2.5,
+              marginRight: 25,
             }}
           >
-            {arr.map((val, index1) => (
-              <View
-                key={index1}
-                style={{
-                  borderWidth: 0.5,
-                  borderRadius: 5,
-                  width: 30,
-                  height: 30,
-                  marginRight: (index1 + 1) % 3 === 0 ? 10 : 3,
+            {status === "solved" ? (
+              <Button
+                title="Finish"
+                onPress={() => {
+                  navigation.navigate("End", { name, recordedTime });
+                  dispatch(setStatus(""));
                 }}
-              >
-                <TextInput
-                  onChangeText={(text) =>
-                    numChange(isNaN(+text) ? "" : text, { index, index1 })
-                  }
-                  keyboardType={"numeric"}
-                  editable={board[index][index1] == 0 ? true : false}
-                  style={{
-                    textAlign: "center",
-                    color: board[index][index1] == 0 ? "red" : "black",
-                    elevation: board[index][index1] == 0 ? 0 : 20,
-                  }}
-                  maxLength={1}
-                  value={val == 0 ? "" : val.toString()}
-                />
-              </View>
-            ))}
+              />
+            ) : (
+              <Button
+                color="#009B72"
+                title="Validate"
+                onPress={() => validation(board2)}
+              />
+            )}
           </View>
-        ))}
-      </KeyboardAvoidingView>
-      <View style={{ flexDirection: "row", marginTop: 25 }}>
-        <View
-          style={{
-            marginRight: 25,
-          }}
-        >
-          {status === "solved" ? (
-            <Button
-              title="Finish"
-              onPress={() => {
-                navigation.navigate("End", { name, recordedTime });
-                dispatch(setStatus(""));
-              }}
-            />
-          ) : (
+          <View style={{ marginLeft: 25, borderRadius: 5 }}>
             <Button
               color="#009B72"
-              title="Validate"
-              onPress={() => validation(board2)}
+              title="Solve"
+              onPress={() => solve(board)}
             />
-          )}
-        </View>
-        <View style={{ marginLeft: 25, borderRadius: 5 }}>
-          <Button color="#009B72" title="Solve" onPress={() => solve(board)} />
+          </View>
         </View>
       </View>
-    </View>
-  );
+    );
+  }
 }
 
 const styles = StyleSheet.create({

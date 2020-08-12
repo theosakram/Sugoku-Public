@@ -13,23 +13,42 @@ const End = ({ route, navigation }) => {
     }
   };
 
+  const clearAll = async () => {
+    try {
+      await AsyncStorage.clear();
+    } catch (e) {
+      console.log(e);
+    }
+
+    console.log("Done.");
+  };
+
   useEffect(() => {
+    // clearAll();
     storeData(name, String(recordedTime));
   }, []);
 
   return (
     <View style={styles.container}>
-      <Text>Selamat, anda menang, {name}</Text>
-      <Text> Waktu anda {recordedTime} detik</Text>
-      <Text>Orang tua anda pasti bangga :)</Text>
-      <View style={{ marginTop: 50 }}>
-        <Button onPress={() => navigation.navigate("Home")} title="Home" />
-      </View>
-      <View style={{ marginTop: 50 }}>
-        <Button
-          onPress={() => navigation.navigate("Leaderboard")}
-          title="Leaderboard"
-        />
+      <Text>Congratulations, you win,</Text>
+      <Text style={{ fontSize: 30 }}>{name}</Text>
+      <Text> Your record is {recordedTime} second(s)</Text>
+      <Text>Your parents must be proud :)</Text>
+      <View style={{ marginTop: 50, flexDirection: "row" }}>
+        <View style={{ marginRight: 15 }}>
+          <Button
+            color="#009B72"
+            onPress={() => navigation.navigate("Home")}
+            title="Home"
+          />
+        </View>
+        <View style={{ marginRight: 15 }}>
+          <Button
+            color="#009B72"
+            onPress={() => navigation.navigate("Leaderboard")}
+            title="Leaderboard"
+          />
+        </View>
       </View>
     </View>
   );
