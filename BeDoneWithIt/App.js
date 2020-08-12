@@ -13,7 +13,7 @@ export default function App({ navigation }) {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator headerMode="none">
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Game" component={Game} />
           <Stack.Screen name="End" component={End} />

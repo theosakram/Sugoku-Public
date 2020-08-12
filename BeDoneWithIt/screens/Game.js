@@ -28,8 +28,8 @@ export default function App({ route, navigation }) {
 
   useEffect(() => {
     dispatch(setBoardAsync(difficulty));
-    dispatch(setStatus(""));
     setLoading(false);
+    dispatch(setStatus(""));
   }, []);
 
   useEffect(() => {
@@ -74,7 +74,11 @@ export default function App({ route, navigation }) {
             until={countdownTime}
             size={30}
             onFinish={() => {
-              if (status === "unsolved" || status === "broken") {
+              if (
+                status === "unsolved" ||
+                status === "broken" ||
+                status === ""
+              ) {
                 alert("You lose");
                 navigation.navigate("Home");
               }
@@ -82,11 +86,11 @@ export default function App({ route, navigation }) {
             onChange={(test) => {
               setRecordedTime(countdownTime - test);
             }}
-            digitStyle={{ backgroundColor: "#fff" }}
-            digitTxtStyle={{ color: "#009B72" }}
+            digitStyle={{ backgroundColor: "black" }}
+            digitTxtStyle={{ color: "#2b9348" }}
             timeToShow={["M", "S"]}
             timeLabels={{ m: "", s: "" }}
-            separatorStyle={{ color: "#009B72" }}
+            separatorStyle={{ color: "#2b9348" }}
             showSeparator
           />
           {toBeMapped.map((arr, index) => (
@@ -95,6 +99,7 @@ export default function App({ route, navigation }) {
               style={{
                 flexDirection: "row",
                 marginBottom: (index + 1) % 3 === 0 ? 10 : 2.5,
+                borderColor: "#2b9348",
               }}
             >
               {arr.map((val, index1) => (
@@ -106,6 +111,7 @@ export default function App({ route, navigation }) {
                     width: 30,
                     height: 30,
                     marginRight: (index1 + 1) % 3 === 0 ? 10 : 3,
+                    borderColor: "#2b9348",
                   }}
                 >
                   <TextInput
@@ -116,8 +122,8 @@ export default function App({ route, navigation }) {
                     editable={board[index][index1] == 0 ? true : false}
                     style={{
                       textAlign: "center",
-                      color: board[index][index1] == 0 ? "red" : "black",
-                      elevation: board[index][index1] == 0 ? 0 : 20,
+                      color: board[index][index1] == 0 ? "white" : "#2b9348",
+                      elevation: board[index][index1] == 0 ? 0 : 100,
                     }}
                     maxLength={1}
                     value={val == 0 ? "" : val.toString()}
@@ -127,34 +133,59 @@ export default function App({ route, navigation }) {
             </View>
           ))}
         </KeyboardAvoidingView>
-        <View style={{ flexDirection: "row", marginTop: 25 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            marginTop: 25,
+            justifyContent: "center",
+          }}
+        >
           <View
             style={{
-              marginRight: 25,
+              borderRadius: 5,
+              borderColor: "#2b9348",
+              borderWidth: 1,
+              width: 150,
+              height: 35,
+              borderRadius: 5,
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
             {status === "solved" ? (
-              <Button
-                title="Finish"
+              <Text
+                style={{ color: "#2b9348" }}
                 onPress={() => {
                   navigation.navigate("End", { name, recordedTime });
-                  dispatch(setStatus(""));
                 }}
-              />
+              >
+                Finish
+              </Text>
             ) : (
-              <Button
-                color="#009B72"
-                title="Validate"
+              <Text
+                style={{ color: "#2b9348" }}
                 onPress={() => validation(board2)}
-              />
+              >
+                Validate
+              </Text>
             )}
           </View>
-          <View style={{ marginLeft: 25, borderRadius: 5 }}>
-            <Button
-              color="#009B72"
-              title="Solve"
-              onPress={() => solve(board)}
-            />
+          <View
+            style={{
+              marginLeft: 25,
+              borderRadius: 5,
+              borderColor: "#2b9348",
+              borderWidth: 1,
+              width: 150,
+              borderRadius: 5,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text onPress={() => solve(board)} style={{ color: "#2b9348" }}>
+              {" "}
+              Solve
+            </Text>
           </View>
         </View>
       </View>
@@ -168,6 +199,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: -50,
-    backgroundColor: "#fff",
+    backgroundColor: "black",
   },
 });

@@ -11,21 +11,31 @@ const Home = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 35, color: "#009B72" }}>SEPPUKU</Text>
+      <Text style={{ fontSize: 35, color: "#2b9348" }}>SEPPUKU</Text>
       <TextInput
         onChangeText={(text) => nameChange(text)}
         placeholder="You got a name?"
-        style={{ height: 100, color: "black", borderColor: "black" }}
+        style={{ height: 100, color: "#2b9348", borderColor: "black" }}
         value={name}
       />
       <View style={{ flexDirection: "row" }}>
         {difficulties.map((difficulty, index) => (
-          <View style={{ marginRight: 10 }} key={index}>
-            <Button
-              color={
-                index === 0 ? "#3EFF8B" : index === 1 ? "#FFBA08" : "#D00000"
-              }
-              title={difficulty}
+          <View
+            style={{
+              borderRadius: 5,
+              borderColor: "#2b9348",
+              borderWidth: 1,
+              width: 100,
+              height: 35,
+              borderRadius: 5,
+              justifyContent: "center",
+              alignItems: "center",
+              marginRight: index < 2 ? 15 : -5,
+            }}
+            key={index}
+          >
+            <Text
+              style={{ color: "#2b9348", fontSize: 15 }}
               onPress={() => {
                 name.length
                   ? navigation.navigate("Game", {
@@ -35,7 +45,9 @@ const Home = ({ navigation }) => {
                   : alert("Name cannot be empty");
                 setName("");
               }}
-            />
+            >
+              {difficulty}
+            </Text>
           </View>
         ))}
       </View>
@@ -50,6 +62,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "black",
   },
 });

@@ -30,24 +30,54 @@ const End = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text>Congratulations, you win,</Text>
-      <Text style={{ fontSize: 30 }}>{name}</Text>
-      <Text> Your record is {recordedTime} second(s)</Text>
-      <Text>Your parents must be proud :)</Text>
-      <View style={{ marginTop: 50, flexDirection: "row" }}>
-        <View style={{ marginRight: 15 }}>
-          <Button
-            color="#009B72"
+      <Text style={{ color: "#2b9348" }}>Congratulations, you win,</Text>
+      <Text style={{ fontSize: 30, color: "#2b9348" }}>{name}</Text>
+      <Text style={{ color: "#2b9348" }}>
+        {" "}
+        Your record is {recordedTime} second(s)
+      </Text>
+      <Text style={{ color: "#2b9348" }}>Your parents must be proud :)</Text>
+      <View
+        style={{
+          marginTop: 50,
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
+      >
+        <View
+          style={{
+            marginRight: 15,
+            borderWidth: 1,
+            borderColor: "#2b9348",
+            justifyContent: "center",
+            alignItems: "center",
+            width: 75,
+            height: 30,
+          }}
+        >
+          <Text
             onPress={() => navigation.navigate("Home")}
-            title="Home"
-          />
+            style={{ color: "#2b9348" }}
+          >
+            {" "}
+            Home{" "}
+          </Text>
         </View>
-        <View style={{ marginRight: 15 }}>
-          <Button
-            color="#009B72"
+        <View
+          style={{
+            borderWidth: 1,
+            borderColor: "#2b9348",
+            justifyContent: "center",
+            alignItems: "center",
+            width: 125,
+          }}
+        >
+          <Text
+            style={{ color: "#2b9348" }}
             onPress={() => navigation.navigate("Leaderboard")}
-            title="Leaderboard"
-          />
+          >
+            Leaderboard
+          </Text>
         </View>
       </View>
     </View>
@@ -61,5 +91,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "black",
   },
 });

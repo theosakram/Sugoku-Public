@@ -30,7 +30,7 @@ const Leaderboard = ({ navigation }) => {
   } else {
     return (
       <View style={styles.container}>
-        <Text style={{ marginBottom: 15, color: "#009B72", fontSize: 25 }}>
+        <Text style={{ marginBottom: 15, color: "#2b9348", fontSize: 25 }}>
           LEADERBOARD
         </Text>
         <View
@@ -38,19 +38,19 @@ const Leaderboard = ({ navigation }) => {
             flexDirection: "column",
             borderWidth: 1,
             width: 300,
-            borderColor: "#009B72",
+            borderColor: "#2b9348",
           }}
         >
           <View
             style={{
               flexDirection: "row",
               justifyContent: "space-around",
-              borderColor: "#009B72",
+              borderColor: "#2b9348",
             }}
           >
-            <Text>Rank</Text>
-            <Text>Name</Text>
-            <Text>Time</Text>
+            <Text style={{ color: "#2b9348" }}>Rank</Text>
+            <Text style={{ color: "#2b9348" }}>Name</Text>
+            <Text style={{ color: "#2b9348" }}>Time</Text>
           </View>
         </View>
         {leaders.map((leader, index) => (
@@ -60,7 +60,7 @@ const Leaderboard = ({ navigation }) => {
               flexDirection: "row",
               borderWidth: 1,
               width: 300,
-              borderColor: "#009B72",
+              borderColor: "#2b9348",
             }}
           >
             <Text
@@ -68,7 +68,8 @@ const Leaderboard = ({ navigation }) => {
                 textAlign: "center",
                 flex: 1,
                 borderRightWidth: 1,
-                borderColor: "#009B72",
+                borderColor: "#2b9348",
+                color: "#2b9348",
               }}
             >
               {index + 1}
@@ -78,24 +79,40 @@ const Leaderboard = ({ navigation }) => {
                 textAlign: "center",
                 flex: 1,
                 borderRightWidth: 1,
-                borderColor: "#009B72",
+                borderColor: "#2b9348",
+                color: "#2b9348",
               }}
             >
               {leader[0]}
             </Text>
             <Text
-              style={{ textAlign: "center", flex: 1, borderColor: "#009B72" }}
+              style={{
+                textAlign: "center",
+                flex: 1,
+                borderColor: "#2b9348",
+                color: "#2b9348",
+              }}
             >
               {leader[1]}
             </Text>
           </View>
         ))}
-        <View style={{ marginTop: 50 }}>
-          <Button
-            color="#009B72"
+        <View
+          style={{
+            borderWidth: 1,
+            borderColor: "#2b9348",
+            justifyContent: "center",
+            alignItems: "center",
+            width: 125,
+            marginTop: 50,
+          }}
+        >
+          <Text
+            style={{ color: "#2b9348" }}
             onPress={() => navigation.navigate("Home")}
-            title="Home"
-          />
+          >
+            Home
+          </Text>
         </View>
       </View>
     );
@@ -110,5 +127,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: -100,
+    backgroundColor: "black",
   },
 });
